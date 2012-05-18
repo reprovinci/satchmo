@@ -18,6 +18,9 @@
 # for the asynchronous submission of forms. The first is used when the browser supports the XMLHttpRequest 2 API or when
 # the form contains no file fields. The fallback transparently submits the form using a hidden `<iframe>`.
 
+# The [source for Satchmo](https://github.com/reprovinci/satchmo) is available on Github, and released under the MIT
+# license.
+
 # ## Usage
 
 # To use this plugin, just submit your form using jQuery's `$.ajax()`:

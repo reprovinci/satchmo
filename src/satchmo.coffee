@@ -18,6 +18,8 @@
 # for the asynchronous submission of forms. The first is used when the browser supports the XMLHttpRequest 2 API or when
 # the form contains no file fields. The fallback transparently submits the form using a hidden `<iframe>`.
 
+# ## Source
+
 # The [source for Satchmo](https://github.com/reprovinci/satchmo) is available on Github, and released under the MIT
 # license.
 
@@ -236,8 +238,8 @@ $.ajaxTransport "satchmo", (options, orig_options, xhr) ->
 
 					# An XML document has been retrieved with information about the request status.
 					if $root.is "response"
-						status = $root.attr "status" || 200
-						statusText = $root.attr("status-text") || HTTP_STATUS_TEXT[status]
+						status = $root.attr("status") || 200
+						statusText = $root.attr("status-text") || HTTP_STATUS_TEXT[status] || ""
 						content =
 							text: $root.children("content").text()
 						headers = []

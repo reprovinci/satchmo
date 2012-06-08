@@ -18,6 +18,8 @@ The [Satchmo](http://en.wikipedia.org/wiki/Louis_Armstrong) [jQuery](http://jque
 for the asynchronous submission of forms. The first is used when the browser supports the XMLHttpRequest 2 API or when
 the form contains no file fields. The fallback transparently submits the form using a hidden `<iframe>`.
 
+## Source
+
 The [source for Satchmo](https://github.com/reprovinci/satchmo) is available on Github, and released under the MIT
 license.
 
@@ -53,14 +55,12 @@ in an HTML document. This document should conform to the following specification
 	Content-Type: text/html; charset=<charset_here>
 
 	<!DOCTYPE html>
-	<body>
-		<div status="404">
-			<ul>
-				<li>Content-Type: application/json</li>
-			</ul>
-			<pre>{&quot;data&quot;:{&quot;42&quot;:&quot;So long ↵
-				and thanks for all the fish!&quot;}}</pre>
-		</div>
+	<body status="404">
+		<ul>
+			<li>Content-Type: application/json</li>
+		</ul>
+		<pre>{&quot;data&quot;:{&quot;42&quot;:&quot;So long ↵
+			and thanks for all the fish!&quot;}}</pre>
 	</body>
 
 The `status` attribute is optional, as is the `<ul>` element.

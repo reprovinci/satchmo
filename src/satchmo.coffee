@@ -49,19 +49,23 @@
 # on the server side.  
 # In case the iframe transport layer kicks in, an additional `Satchmo__wrap` variable is sent along with the request to
 # tell the server this is an emulated AJAX request. When this variable is present, you may choose to wrap your response
-# in an XML document. This document should conform to the following specification:
+# in an HTML document. This document should conform to the following specification:
 
-# 	<?xml version="1.0" encoding="UTF-8"?>
-# 	<response status="404">
-# 		<headers>
-# 			<header name="Content-Type">application/json</header>
-# 		</headers>
-# 		<content>
-# 			<![CDATA[{"ok": true, "message": "Thanks so much"}]]>
-# 		</content>
-# 	</response>
+# 	HTTP/1.x 200 OK
+# 	Content-Type: text/html; charset=<charset_here>
+#
+# 	<!DOCTYPE html>
+# 	<body>
+# 		<div status="404">
+# 			<ul>
+# 				<li>Content-Type: application/json</li>
+# 			</ul>
+# 			<pre>{&quot;data&quot;:{&quot;42&quot;:&quot;So long ↵
+# 				and thanks for all the fish!&quot;}}</pre>
+# 		</div>
+# 	</body>
 
-# The `status` attribute is optional, as is the `<headers>` element.
+# The `status` attribute is optional, as is the `<ul>` element.
 
 # ## Annotated source
 
@@ -219,7 +223,8 @@ $.ajaxTransport "satchmo", (options, orig_options, xhr) ->
 				method: $form.prop "method"
 				target: request_id
 
-			# Also send the `Satchmo__wrap` parameter, which will signal the server an XML response document may be sent.
+			# Also send the `Satchmo__wrap` parameter, which will signal the server an HTML response document may be
+			# sent.
 			$("<input type=\"hidden\" name=\"Satchmo__wrap\" value=\"1\">").appendTo $new_form
 
 			# Temporarily move the original form elements into the new form
@@ -229,23 +234,23 @@ $.ajaxTransport "satchmo", (options, orig_options, xhr) ->
 			# the actual submission.
 			$iframe.on "load.satchmo", once ->
 				# The second load event gets fired when the response to the form submission is received. The
-				# implementation detects whether the actual payload is embedded in an XML document, and prepares the
+				# implementation detects whether the actual payload is embedded in an HTML document, and prepares the
 				# required conversions to be made in that case.
 				$iframe.on "load.satchmo", once ->
 					document  = @contentWindow?.document or @contentDocument?.document or @document
 					$document = $(document)
-					$root     = $document.children().first()
+					$root     = $document.find "body > div"
 
-					# An XML document has been retrieved with information about the request status.
-					if $root.is "response"
-						status = $root.attr("status") || 200
-						statusText = $root.attr("status-text") || HTTP_STATUS_TEXT[status] || ""
+					# An HTML document has been retrieved with information about the request status.
+					if $root.is "div"
+						status = $root.attr "status" || 200
+						statusText = $root.attr("status-text") || HTTP_STATUS_TEXT[status]
 						content =
-							text: $root.children("content").text()
+							text: $root.children("pre").text()
 						headers = []
-						for header in $root.children("headers").children("header")
+						for header in $root.children("ul").children("li")
 							$header = $(header)
-							headers.push "#{$header.attr "name"}: #{$header.text()}"
+							headers.push $header.text()
 						headers = headers.join "\r\n"
 
 					# Complete the AJAX request succesfully, as no information can be retrieved from the `<iframe>`'s

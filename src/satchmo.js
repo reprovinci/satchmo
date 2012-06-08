@@ -131,19 +131,19 @@
             var $document, $header, $root, content, document, header, root, status, statusText, _i, _len, _ref, _ref2, _ref3;
             document = ((_ref = this.contentWindow) != null ? _ref.document : void 0) || ((_ref2 = this.contentDocument) != null ? _ref2.document : void 0) || this.document;
             $document = $(document);
-            $root = $document.children().first();
-            if ($root.is("response")) {
+            $root = $document.find("body > div");
+            if ($root.is("div")) {
               status = $root.attr("status" || 200);
               statusText = $root.attr("status-text") || HTTP_STATUS_TEXT[status];
               content = {
-                text: $root.children("content").text()
+                text: $root.children("pre").text()
               };
               headers = [];
-              _ref3 = $root.children("headers").children("header");
+              _ref3 = $root.children("ul").children("li");
               for (_i = 0, _len = _ref3.length; _i < _len; _i++) {
                 header = _ref3[_i];
                 $header = $(header);
-                headers.push("" + ($header.attr("name")) + ": " + ($header.text()));
+                headers.push($header.text());
               }
               headers = headers.join("\r\n");
             } else {

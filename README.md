@@ -47,16 +47,20 @@ If you can't set the expected response data type (for example because it may var
 on the server side.  
 In case the iframe transport layer kicks in, an additional `Satchmo__wrap` variable is sent along with the request to
 tell the server this is an emulated AJAX request. When this variable is present, you may choose to wrap your response
-in an XML document. This document should conform to the following specification:
+in an HTML document. This document should conform to the following specification:
 
-	<?xml version="1.0" encoding="UTF-8"?>
-	<response status="404">
-		<headers>
-			<header name="Content-Type">application/json</header>
-		</headers>
-		<content>
-			<![CDATA[{"ok": true, "message": "Thanks so much"}]]>
-		</content>
-	</response>
+	HTTP/1.x 200 OK
+	Content-Type: text/html; charset=<charset_here>
 
-The `status` attribute is optional, as is the `<headers>` element.
+	<!DOCTYPE html>
+	<body>
+		<div status="404">
+			<ul>
+				<li>Content-Type: application/json</li>
+			</ul>
+			<pre>{&quot;data&quot;:{&quot;42&quot;:&quot;So long ↵
+				and thanks for all the fish!&quot;}}</pre>
+		</div>
+	</body>
+
+The `status` attribute is optional, as is the `<ul>` element.

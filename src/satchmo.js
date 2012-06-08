@@ -131,8 +131,8 @@
             var $document, $header, $root, content, document, header, root, status, statusText, _i, _len, _ref, _ref2, _ref3;
             document = ((_ref = this.contentWindow) != null ? _ref.document : void 0) || ((_ref2 = this.contentDocument) != null ? _ref2.document : void 0) || this.document;
             $document = $(document);
-            $root = $document.find("body > div");
-            if ($root.is("div")) {
+            $root = $document.find("body");
+            if ($root.is("body")) {
               status = $root.attr("status" || 200);
               statusText = $root.attr("status-text") || HTTP_STATUS_TEXT[status];
               content = {

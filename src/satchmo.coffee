@@ -55,14 +55,12 @@
 # 	Content-Type: text/html; charset=<charset_here>
 #
 # 	<!DOCTYPE html>
-# 	<body>
-# 		<div status="404">
-# 			<ul>
-# 				<li>Content-Type: application/json</li>
-# 			</ul>
-# 			<pre>{&quot;data&quot;:{&quot;42&quot;:&quot;So long ↵
-# 				and thanks for all the fish!&quot;}}</pre>
-# 		</div>
+# 	<body status="404">
+# 		<ul>
+# 			<li>Content-Type: application/json</li>
+# 		</ul>
+# 		<pre>{&quot;data&quot;:{&quot;42&quot;:&quot;So long ↵
+# 			and thanks for all the fish!&quot;}}</pre>
 # 	</body>
 
 # The `status` attribute is optional, as is the `<ul>` element.
@@ -239,10 +237,10 @@ $.ajaxTransport "satchmo", (options, orig_options, xhr) ->
 				$iframe.on "load.satchmo", once ->
 					document  = @contentWindow?.document or @contentDocument?.document or @document
 					$document = $(document)
-					$root     = $document.find "body > div"
+					$root     = $document.find "body"
 
 					# An HTML document has been retrieved with information about the request status.
-					if $root.is "div"
+					if $root.is "body"
 						status = $root.attr "status" || 200
 						statusText = $root.attr("status-text") || HTTP_STATUS_TEXT[status]
 						content =

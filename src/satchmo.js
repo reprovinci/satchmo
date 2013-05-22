@@ -80,7 +80,7 @@
     if (!(xml2_support || $form.has("input[type=file]").length === 0)) {
       return "satchmo";
     }
-    options.url = $form.prop("action" || "");
+    options.url = $form.prop("action") || "";
     options.data = FormData ? new FormData($form.get(0)) : $form.serialize();
     options.type = $form.prop("method").toUpperCase() || "GET";
     options.contentType = false;
@@ -88,9 +88,9 @@
     dfd = $.Deferred();
     xhr.progress = dfd.progress;
     old_xhr = options.xhr;
-    return options.xhr = function() {
+    options.xhr = function() {
       xhr = old_xhr();
-      if (xhr.upload instanceof XMLHttpRequestUpload) {
+      if ((typeof XMLHttpRequestUpload !== "undefined" && XMLHttpRequestUpload !== null) && xhr.upload instanceof XMLHttpRequestUpload) {
         xhr.upload.addEventListener("progress", (function() {
           return dfd.notify.apply(dfd, arguments);
         }), false);

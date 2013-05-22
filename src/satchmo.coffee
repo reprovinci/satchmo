@@ -155,7 +155,7 @@ $.ajaxPrefilter (options, original_options, xhr) ->
 	return "satchmo" unless xml2_support || $form.has("input[type=file]").length == 0
 
 	# Set `url` based on the form's `action` attribute.
-	options.url = $form.prop "action" || ""
+	options.url = $form.prop("action") || ""
 
 	# Get data from form, trying the XMLHttpRequest 2 API, falling back to basic serialisation.
 	options.data =

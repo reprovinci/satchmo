@@ -186,7 +186,7 @@ $.ajaxPrefilter (options, original_options, xhr) ->
 	options.xhr = ->
 		xhr = old_xhr()
 
-		if xhr.upload instanceof XMLHttpRequestUpload
+		if XMLHttpRequestUpload? && xhr.upload instanceof XMLHttpRequestUpload
 			xhr.upload.addEventListener "progress", ( -> dfd.notify arguments... ), false
 
 		return xhr

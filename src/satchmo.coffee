@@ -251,7 +251,7 @@ $.ajaxTransport "satchmo", (options, orig_options, xhr) ->
 							headers.push $header.text()
 						headers = headers.join "\r\n"
 
-					# Complete the AJAX request succesfully, as no information can be retrieved from the `<iframe>`'s
+					# Complete the AJAX request successfully, as no information can be retrieved from the `<iframe>`'s
 					# response.
 					else
 						root = document.documentElement || document.body

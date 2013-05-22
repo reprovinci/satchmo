@@ -190,6 +190,7 @@ $.ajaxPrefilter (options, original_options, xhr) ->
 			xhr.upload.addEventListener "progress", ( -> dfd.notify arguments... ), false
 
 		return xhr
+	return
 
 # ## The iframe transport
 
